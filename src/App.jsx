@@ -104,7 +104,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      </header>
+      <Header />
 
       <div className="controls">
         <div className="upload-wrapper">
