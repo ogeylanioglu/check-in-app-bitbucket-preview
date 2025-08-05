@@ -27,12 +27,25 @@ function App() {
     localStorage.setItem("guestList", JSON.stringify(updatedList));
   };
 
-  useEffect(() => {
-    const savedList = localStorage.getItem("guestList");
-    const savedCheckIns = localStorage.getItem("checkedIn");
-    if (savedList) setGuestList(JSON.parse(savedList));
-    if (savedCheckIns) setCheckedIn(JSON.parse(savedCheckIns));
-  }, []);
+ useEffect(() => {
+  const savedList = localStorage.getItem("guestList");
+  const savedCheckIns = localStorage.getItem("checkedIn");
+
+  if (savedList) {
+    let parsedList = JSON.parse(savedList);
+
+    // Migration: add registrationType if missing
+    parsedList = parsedList.map(guest => ({
+      ...guest,
+      registrationType: guest.registrationType || "Pre-Registered"
+    }));
+
+    setGuestList(parsedList);
+    localStorage.setItem("guestList", JSON.stringify(parsedList)); // save back the updated list
+  }
+
+  if (savedCheckIns) setCheckedIn(JSON.parse(savedCheckIns));
+}, []);
 
   useEffect(() => {
     localStorage.setItem("guestList", JSON.stringify(guestList));
