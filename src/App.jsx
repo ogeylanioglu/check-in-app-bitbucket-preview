@@ -119,6 +119,8 @@ function App() {
           />
         </div>
 
+        <Stats checked={checked} total={total} percentage={percentage} />
+
         <div className="search-row">
           <input
             type="text"
