@@ -138,27 +138,27 @@ function App() {
       </div>
 
       <div className="guest-grid">
-        {filteredGuests.map((guest, idx) => (
-          <div
-            key={idx}
-            onClick={() => toggleCheckIn(guest.Name)}
-            className={`guest-card ${checkedIn[guest.Name] ? "checked" : ""} ${guest.manual ? "manual" : ""}`}
-          >
-            <div className="guest-top">
-              <span className="guest-name">{guest.Name}</span>
-              <div className="chips">
-  <span className={`chip ${checkedIn[guest.Name] ? "green" : "red"}`}>
-    {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
-  </span>
-  <span className="chip gray">
-    {guest.registrationType}
-  </span>
-</div>
-            </div>
-          </div>
-        ))}
+  {filteredGuests.map((guest, idx) => (
+    <div
+      key={idx}
+      onClick={() => toggleCheckIn(guest.Name)}
+      className={`guest-card ${checkedIn[guest.Name] ? "checked" : ""} ${
+        guest.registrationType === "On-Site" ? "manual" : ""
+      }`}
+    >
+      <div className="guest-top">
+        <span className="guest-name">{guest.Name}</span>
+        {/* New chips container */}
+        <div className="chips">
+          <span className={`chip ${checkedIn[guest.Name] ? "green" : "red"}`}>
+            {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
+          </span>
+          <span className="chip gray">{guest.registrationType}</span>
+        </div>
       </div>
-
+    </div>
+  ))}
+</div>
       <div className="fab" onClick={addManualGuest}>+</div>
     </div>
   );
