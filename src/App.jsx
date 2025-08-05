@@ -1,153 +1,82 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Papa from "papaparse";
-import logo from "./assets/C_logo.png";
 import ExportCSVButton from "./components/ExportCSVButton";
 
 function App() {
   const [guestList, setGuestList] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [checkedIn, setCheckedIn] = useState({});
-  const [sortAsc, setSortAsc] = useState(true);
-  const [showManualOnly, setShowManualOnly] = useState(false);
 
-  const addManualGuest = () => {
-    const fullName = prompt("Enter guest's full name:");
-    if (!fullName || !fullName.trim()) return;
-
-    const name = fullName.trim();
-    const email = name.toLowerCase().replace(/ /g, ".") + "@manual.com";
-
-    const newGuest = { Name: name, Email: email, manual: true };
-    const updatedList = [...guestList, newGuest];
-    setGuestList(updatedList);
-    localStorage.setItem("guestList", JSON.stringify(updatedList));
-  };
-
-  useEffect(() => {
-    const savedList = localStorage.getItem("guestList");
-    const savedCheckIns = localStorage.getItem("checkedIn");
-    if (savedList) setGuestList(JSON.parse(savedList));
-    if (savedCheckIns) setCheckedIn(JSON.parse(savedCheckIns));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("guestList", JSON.stringify(guestList));
-  }, [guestList]);
-
-  useEffect(() => {
-    localStorage.setItem("checkedIn", JSON.stringify(checkedIn));
-  }, [checkedIn]);
-
-  const handleCSVUpload = (e) => {
-    const file = e.target.files[0];
-    Papa.parse(file, {
+  // ✅ CSV Upload Handler
+  const handleFileUpload = (e) => {
+    Papa.parse(e.target.files[0], {
       header: true,
-      skipEmptyLines: true,
       complete: (results) => {
-        const cleaned = results.data.map(row => ({
-          Name: row.Name?.trim()
-        })).filter(row => row.Name);
-        setGuestList(cleaned);
-        setCheckedIn({});
-        localStorage.setItem("guestList", JSON.stringify(cleaned));
-        localStorage.setItem("checkedIn", JSON.stringify({}));
+        const uploadedGuests = results.data.map((row) => ({
+          Name: row.Name,
+          checkedIn: false,
+          manual: false,
+        }));
+        setGuestList(uploadedGuests);
       },
     });
   };
 
+  // ✅ Manual Add Guest
+  const handleAddGuest = () => {
+    const name = prompt("Enter guest name:");
+    if (name) {
+      setGuestList([
+        ...guestList,
+        { Name: name, checkedIn: false, manual: true },
+      ]);
+    }
+  };
+
+  // ✅ Toggle Check-In
   const toggleCheckIn = (name) => {
-    const updated = { ...checkedIn, [name]: !checkedIn[name] };
-    setCheckedIn(updated);
-    localStorage.setItem("checkedIn", JSON.stringify(updated));
+    setCheckedIn((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
   };
 
-  const clearData = () => {
-    setGuestList([]);
-    setCheckedIn({});
-    localStorage.clear();
-  };
-
-  const filteredGuests = guestList
-    .filter((guest) => {
-      const matchesSearch = guest.Name?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesManual = !showManualOnly || guest.manual;
-      return matchesSearch && matchesManual;
-    })
-    .sort((a, b) =>
-      sortAsc ? a.Name.localeCompare(b.Name) : b.Name.localeCompare(a.Name)
-    );
-
-  const total = guestList.length;
-  const checked = Object.values(checkedIn).filter(Boolean).length;
-  const percentage = total > 0 ? ((checked / total) * 100).toFixed(1) : 0;
+  // ✅ Stats
+  const checkedCount = Object.values(checkedIn).filter(Boolean).length;
+  const percentage =
+    guestList.length > 0 ? Math.round((checkedCount / guestList.length) * 100) : 0;
 
   return (
-    <div className="wrapper">
-      <header className="hero">
-        <img src={logo} alt="Convene Logo" className="logo" />
-        <h1>Elevate Your Check-In Process</h1>
-        <p className="subtitle">A seamless, modern experience built for every Convene location.</p>
-      </header>
+    <div className="App">
+      <h1>Guest Check-In</h1>
 
-      <div className="controls">
-        <div className="upload-wrapper">
-          <label htmlFor="csvUpload" className="upload-label">Upload Guest List (.csv)</label>
-          <input
-            type="file"
-            id="csvUpload"
-            className="hidden-input"
-            accept=".csv"
-            onChange={handleCSVUpload}
-          />
-        </div>
+      {/* File Upload */}
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
 
-        <div className="search-row">
-          <input
-            type="text"
-            placeholder="Search by full name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button onClick={() => setSearchTerm("")}>Clear</button>
-          <button onClick={clearData}>Reset All</button>
-          <button onClick={() => setSortAsc((prev) => !prev)}>
-            Sort {sortAsc ? "↓ Z-A" : "↑ A-Z"}
-          </button>
-          <button onClick={() => setShowManualOnly(prev => !prev)}>
-            {showManualOnly ? "Show All" : "Show Manual Only"}
-          </button>
-          <button onClick={exportCSV}>Export CSV</button>
-        </div>
-      </div>
+      {/* Add Guest */}
+      <button onClick={handleAddGuest}>+ Add Guest</button>
 
+      {/* Export CSV (new component) */}
+      <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
+
+      {/* Attendance Stats */}
       <div className="stats">
-        <div className="stat-box">
-          Attendance Rate: {percentage}%
-          <div className="progress-container">
-            <div className="progress-bar" style={{ width: `${percentage}%` }}></div>
-          </div>
-        </div>
-        <div className="stat-box">Checked in: {checked} / {total}</div>
+        <p>
+          Checked In: {checkedCount} / {guestList.length} ({percentage}%)
+        </p>
       </div>
 
-      <div className="guest-grid">
-        {filteredGuests.map((guest, idx) => (
-          <div
-            key={idx}
+      {/* Guest List */}
+      <ul>
+        {guestList.map((guest, index) => (
+          <li
+            key={index}
+            className={checkedIn[guest.Name] ? "checked-in" : "not-checked"}
             onClick={() => toggleCheckIn(guest.Name)}
-            className={`guest-card ${checkedIn[guest.Name] ? "checked" : ""} ${guest.manual ? "manual" : ""}`}
           >
-            <div className="guest-top">
-              <span className="guest-name">{guest.Name}</span>
-              <span className={`tag ${checkedIn[guest.Name] ? "green" : "red"}`}>
-                {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
-              </span>
-            </div>
-          </div>
+            {guest.Name}
+          </li>
         ))}
-      </div>
-
-      <div className="fab" onClick={addManualGuest}>+</div>
+      </ul>
     </div>
   );
 }
