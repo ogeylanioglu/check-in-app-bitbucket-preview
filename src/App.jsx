@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import ExportCSVButton from "./components/ExportCSVButton";
+import "./index.css"; //
 
 function App() {
   const [guestList, setGuestList] = useState([]);
   const [checkedIn, setCheckedIn] = useState({});
 
-  // ✅ CSV Upload Handler
+  // CSV Upload Handler
   const handleFileUpload = (e) => {
     Papa.parse(e.target.files[0], {
       header: true,
@@ -21,7 +22,7 @@ function App() {
     });
   };
 
-  // ✅ Manual Add Guest
+  // Manual Add Guest
   const handleAddGuest = () => {
     const name = prompt("Enter guest name:");
     if (name) {
@@ -32,7 +33,7 @@ function App() {
     }
   };
 
-  // ✅ Toggle Check-In
+  // Toggle Check-In
   const toggleCheckIn = (name) => {
     setCheckedIn((prev) => ({
       ...prev,
@@ -40,20 +41,27 @@ function App() {
     }));
   };
 
-  // ✅ Stats
+  // Stats
   const checkedCount = Object.values(checkedIn).filter(Boolean).length;
   const percentage =
     guestList.length > 0 ? Math.round((checkedCount / guestList.length) * 100) : 0;
 
   return (
-    <div className="App">
+    <div className="container"> {/* restored wrapper */}
       <h1>Guest Check-In</h1>
 
       {/* File Upload */}
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <input
+        type="file"
+        accept=".csv"
+        onChange={handleFileUpload}
+        className="upload-btn"  // styled class
+      />
 
       {/* Add Guest */}
-      <button onClick={handleAddGuest}>+ Add Guest</button>
+      <button onClick={handleAddGuest} className="add-btn">
+        + Add Guest
+      </button>
 
       {/* Export CSV (new component) */}
       <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
@@ -66,7 +74,7 @@ function App() {
       </div>
 
       {/* Guest List */}
-      <ul>
+      <ul className="guest-list">
         {guestList.map((guest, index) => (
           <li
             key={index}
