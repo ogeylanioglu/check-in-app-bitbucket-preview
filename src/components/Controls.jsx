@@ -40,7 +40,7 @@ const Controls = ({
         Sort {sortAsc ? "↓ Z-A" : "↑ A-Z"}
       </button>
       <button onClick={() => setShowManualOnly((prev) => !prev)}>
-        {showManualOnly ? "Show All" : "Show Manual Only"}
+        {showManualOnly ? "Show All" : "On-Site Registrations"}
       </button>
       <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
     </div>
