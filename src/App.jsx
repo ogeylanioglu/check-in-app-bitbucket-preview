@@ -119,7 +119,6 @@ function App() {
           />
         </div>
 
-        <Stats checked={checked} total={total} percentage={percentage} />
 
         <div className="search-row">
           <input
@@ -139,6 +138,8 @@ function App() {
           <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
         </div>
       </div>
+
+       <Stats checked={checked} total={total} percentage={percentage} />
 
       <div className="guest-grid">
   {filteredGuests.map((guest, idx) => (
