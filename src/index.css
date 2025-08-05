@@ -301,6 +301,7 @@ body {
 .chips {
   display: flex;
   gap: 6px;
+  margin-top: 4px;
 }
 
 .chip {
@@ -312,16 +313,16 @@ body {
 }
 
 .chip.green {
-  background-color: #d1fae5;
+  background-color: #d1fae5; /* light green */
   color: #065f46;
 }
 
 .chip.red {
-  background-color: #fee2e2;
+  background-color: #fee2e2; /* light red */
   color: #991b1b;
 }
 
 .chip.gray {
-  background-color: #e5e7eb;
+  background-color: #e5e7eb; /* light gray */
   color: #374151;
 }
