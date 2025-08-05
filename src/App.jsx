@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import logo from "./assets/C_logo.png";
 import Header from "./components/Header";
+import Stats from "./components/Stats";
 
 function App() {
   const [guestList, setGuestList] = useState([]);
@@ -135,16 +136,6 @@ function App() {
           </button>
           <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
         </div>
-      </div>
-
-      <div className="stats">
-        <div className="stat-box">
-          Attendance Rate: {percentage}%
-          <div className="progress-container">
-            <div className="progress-bar" style={{ width: `${percentage}%` }}></div>
-          </div>
-        </div>
-        <div className="stat-box">Checked in: {checked} / {total}</div>
       </div>
 
       <div className="guest-grid">
