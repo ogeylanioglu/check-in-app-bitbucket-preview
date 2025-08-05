@@ -146,9 +146,14 @@ function App() {
           >
             <div className="guest-top">
               <span className="guest-name">{guest.Name}</span>
-              <span className={`tag ${checkedIn[guest.Name] ? "green" : "red"}`}>
-                {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
-              </span>
+              <div className="chips">
+  <span className={`chip ${checkedIn[guest.Name] ? "green" : "red"}`}>
+    {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
+  </span>
+  <span className="chip gray">
+    {guest.registrationType}
+  </span>
+</div>
             </div>
           </div>
         ))}
