@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Production build output
+dist/
+
+# IDE settings
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Prevent large binaries from being committed accidentally
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
