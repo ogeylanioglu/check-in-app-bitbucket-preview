@@ -116,7 +116,7 @@ function App() {
   sortAsc={sortAsc}
   setSortAsc={setSortAsc}
   showManualOnly={showManualOnly}
-  setShowManualOnly={setShowManualOnly}
+  setShowManualOnly={setOn-Site Registrations}
   handleCSVUpload={handleCSVUpload}
   clearData={clearData}
   guestList={guestList}
