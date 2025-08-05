@@ -2,6 +2,7 @@ import ExportCSVButton from "./components/ExportCSVButton";
 import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import logo from "./assets/C_logo.png";
+import Header from "./components/Header";
 
 function App() {
   const [guestList, setGuestList] = useState([]);
@@ -103,10 +104,6 @@ function App() {
 
   return (
     <div className="wrapper">
-      <header className="hero">
-        <img src={logo} alt="Convene Logo" className="logo" />
-        <h1>Elevate Your Check-In Process</h1>
-        <p className="subtitle">A seamless, modern experience built for every Convene location.</p>
       </header>
 
       <div className="controls">
