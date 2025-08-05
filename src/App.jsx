@@ -17,7 +17,11 @@ function App() {
     const name = fullName.trim();
     const email = name.toLowerCase().replace(/ /g, ".") + "@manual.com";
 
-    const newGuest = { Name: name, Email: email, manual: true };
+    const newGuest = { 
+  Name: name, 
+  Email: email, 
+  registrationType: "On-Site" 
+};
     const updatedList = [...guestList, newGuest];
     setGuestList(updatedList);
     localStorage.setItem("guestList", JSON.stringify(updatedList));
@@ -44,9 +48,12 @@ function App() {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        const cleaned = results.data.map(row => ({
-          Name: row.Name?.trim()
-        })).filter(row => row.Name);
+        const cleaned = results.data
+  .map(row => ({
+    Name: row.Name?.trim(),
+    registrationType: "Pre-Registered"
+  }))
+  .filter(row => row.Name);
         setGuestList(cleaned);
         setCheckedIn({});
         localStorage.setItem("guestList", JSON.stringify(cleaned));
@@ -70,7 +77,7 @@ function App() {
   const filteredGuests = guestList
     .filter((guest) => {
       const matchesSearch = guest.Name?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesManual = !showManualOnly || guest.manual;
+      const matchesManual = !showManualOnly || guest.registrationType === "On-Site";
       return matchesSearch && matchesManual;
     })
     .sort((a, b) =>
