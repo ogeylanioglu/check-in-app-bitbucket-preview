@@ -1,7 +1,7 @@
+import ExportCSVButton from "./components/ExportCSVButton";
 import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import logo from "./assets/C_logo.png";
-import ExportCSVButton from "./components/ExportCSVButton";
 
 function App() {
   const [guestList, setGuestList] = useState([]);
@@ -22,7 +22,6 @@ function App() {
     setGuestList(updatedList);
     localStorage.setItem("guestList", JSON.stringify(updatedList));
   };
-
 
   useEffect(() => {
     const savedList = localStorage.getItem("guestList");
@@ -117,7 +116,7 @@ function App() {
           <button onClick={() => setShowManualOnly(prev => !prev)}>
             {showManualOnly ? "Show All" : "Show Manual Only"}
           </button>
-          <button onClick={exportCSV}>Export CSV</button>
+          <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
         </div>
       </div>
 
