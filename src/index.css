@@ -326,3 +326,8 @@ body {
   background-color: #e5e7eb; /* light gray */
   color: #374151;
 }
+.guest-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
