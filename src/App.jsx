@@ -5,6 +5,8 @@ import logo from "./assets/C_logo.png";
 import Header from "./components/Header";
 import Stats from "./components/Stats";
 import Controls from "./components/Controls";
+import GuestCard from "./components/GuestCard";
+
 
 function App() {
   const [guestList, setGuestList] = useState([]);
@@ -123,29 +125,18 @@ function App() {
 
        <Stats checked={checked} total={total} percentage={percentage} />
 
-      <div className="guest-grid">
+<div className="guest-grid">
   {filteredGuests.map((guest, idx) => (
-    <div
+    <GuestCard
       key={idx}
-      onClick={() => toggleCheckIn(guest.Name)}
-      className={`guest-card ${checkedIn[guest.Name] ? "checked" : ""} ${
-        guest.registrationType === "On-Site" ? "manual" : ""
-      }`}
-    >
-      <div className="guest-top">
-  <div className="guest-info">
-    <span className="guest-name">{guest.Name}</span>
-    <div className="chips">
-      <span className={`chip ${checkedIn[guest.Name] ? "green" : "red"}`}>
-        {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
-      </span>
-      <span className="chip gray">{guest.registrationType}</span>
-    </div>
-  </div>
-</div>
-    </div>
+      guest={guest}
+      checkedIn={checkedIn}
+      toggleCheckIn={toggleCheckIn}
+    />
   ))}
 </div>
+
+      
       <div className="fab" onClick={addManualGuest}>+</div>
     </div>
   );
