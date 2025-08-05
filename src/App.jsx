@@ -147,15 +147,16 @@ function App() {
       }`}
     >
       <div className="guest-top">
-        <span className="guest-name">{guest.Name}</span>
-        {/* New chips container */}
-        <div className="chips">
-          <span className={`chip ${checkedIn[guest.Name] ? "green" : "red"}`}>
-            {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
-          </span>
-          <span className="chip gray">{guest.registrationType}</span>
-        </div>
-      </div>
+  <div className="guest-info">
+    <span className="guest-name">{guest.Name}</span>
+    <div className="chips">
+      <span className={`chip ${checkedIn[guest.Name] ? "green" : "red"}`}>
+        {checkedIn[guest.Name] ? "Checked In" : "Not Checked In"}
+      </span>
+      <span className="chip gray">{guest.registrationType}</span>
+    </div>
+  </div>
+</div>
     </div>
   ))}
 </div>
