@@ -22,23 +22,6 @@ function App() {
     localStorage.setItem("guestList", JSON.stringify(updatedList));
   };
 
-  const exportCSV = () => {
-    const dataToExport = guestList.map(guest => ({
-      Name: guest.Name,
-      CheckedIn: checkedIn[guest.Name] ? "Yes" : "No",
-      Manual: guest.manual ? "Yes" : "No",
-    }));
-    const csv = Papa.unparse(dataToExport);
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "checkin_results.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   useEffect(() => {
     const savedList = localStorage.getItem("guestList");
     const savedCheckIns = localStorage.getItem("checkedIn");
