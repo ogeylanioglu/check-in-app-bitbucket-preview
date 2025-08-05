@@ -8,7 +8,7 @@ const ExportCSVButton = ({ guestList, checkedIn }) => {
     const dataToExport = guestList.map((guest) => ({
       Name: guest.Name,
       CheckedIn: checkedIn[guest.Name] ? "Yes" : "No",
-      Manual: guest.manual ? "Yes" : "No",
+      RegistrationType: guest.registrationType || "Pre-Registered",
     }));
 
     const csv = Papa.unparse(dataToExport);
