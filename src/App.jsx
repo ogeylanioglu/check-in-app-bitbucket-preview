@@ -4,6 +4,7 @@ import Papa from "papaparse";
 import logo from "./assets/C_logo.png";
 import Header from "./components/Header";
 import Stats from "./components/Stats";
+import Controls from "./components/Controls";
 
 function App() {
   const [guestList, setGuestList] = useState([]);
@@ -107,37 +108,18 @@ function App() {
     <div className="wrapper">
       <Header />
 
-      <div className="controls">
-        <div className="upload-wrapper">
-          <label htmlFor="csvUpload" className="upload-label">Upload Guest List (.csv)</label>
-          <input
-            type="file"
-            id="csvUpload"
-            className="hidden-input"
-            accept=".csv"
-            onChange={handleCSVUpload}
-          />
-        </div>
-
-
-        <div className="search-row">
-          <input
-            type="text"
-            placeholder="Search by full name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button onClick={() => setSearchTerm("")}>Clear</button>
-          <button onClick={clearData}>Reset All</button>
-          <button onClick={() => setSortAsc((prev) => !prev)}>
-            Sort {sortAsc ? "↓ Z-A" : "↑ A-Z"}
-          </button>
-          <button onClick={() => setShowManualOnly(prev => !prev)}>
-            {showManualOnly ? "Show All" : "Show Manual Only"}
-          </button>
-          <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
-        </div>
-      </div>
+<Controls
+  searchTerm={searchTerm}
+  setSearchTerm={setSearchTerm}
+  sortAsc={sortAsc}
+  setSortAsc={setSortAsc}
+  showManualOnly={showManualOnly}
+  setShowManualOnly={setShowManualOnly}
+  handleCSVUpload={handleCSVUpload}
+  clearData={clearData}
+  guestList={guestList}
+  checkedIn={checkedIn}
+/>
 
        <Stats checked={checked} total={total} percentage={percentage} />
 
