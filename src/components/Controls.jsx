@@ -30,12 +30,11 @@ const Controls = ({
     <div className="search-row">
       <input
         type="text"
-        placeholder="Search by full name"
+        placeholder="Search by Full Name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button onClick={() => setSearchTerm("")}>Clear</button>
-      <button onClick={clearData}>Reset All</button>
       <button onClick={() => setSortAsc((prev) => !prev)}>
         Sort {sortAsc ? "↓ Z-A" : "↑ A-Z"}
       </button>
