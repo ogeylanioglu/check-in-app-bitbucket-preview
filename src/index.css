@@ -326,7 +326,7 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #111;
+  background: #e5e7eb;
   color: #fff;
   border: none;
   display: flex;
@@ -336,4 +336,4 @@ body {
   cursor: pointer;
 }
 .icon-btn:hover { background: #e5e7eb; }
-.icon-btn--danger { background: #111; } /* fab black button style */
+.icon-btn--danger { background: #e5e7eb; } /* fab black button style */
