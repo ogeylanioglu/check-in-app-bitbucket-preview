@@ -86,6 +86,27 @@ function App() {
     localStorage.setItem("checkedIn", JSON.stringify(updated));
   };
 
+const removeManualGuest = (name) => {
+  // Remove from guestList (only if it's an On-Site record)
+  setGuestList(prev => {
+    const updated = prev.filter(
+      g => !(g.Name === name && g.registrationType === "On-Site")
+    );
+    localStorage.setItem("guestList", JSON.stringify(updated));
+    return updated;
+  });
+
+  // Clean up the checkedIn state for that name
+  setCheckedIn(prev => {
+    if (name in prev) {
+      const { [name]: _omit, ...rest } = prev;
+      localStorage.setItem("checkedIn", JSON.stringify(rest));
+      return rest;
+    }
+    return prev;
+  });
+};
+
   const clearData = () => {
     setGuestList([]);
     setCheckedIn({});
@@ -132,6 +153,7 @@ function App() {
       guest={guest}
       checkedIn={checkedIn}
       toggleCheckIn={toggleCheckIn}
+      onRemoveManual={removeManualGuest}
     />
   ))}
 </div>
