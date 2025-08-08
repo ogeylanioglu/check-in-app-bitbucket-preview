@@ -1,6 +1,6 @@
 import React from "react";
 
-const GuestCard = ({ guest, checkedIn, toggleCheckIn }) => (
+const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => (
   <div
     onClick={() => toggleCheckIn(guest.Name)}
     className={`guest-card ${checkedIn[guest.Name] ? "checked" : ""} ${
@@ -17,6 +17,23 @@ const GuestCard = ({ guest, checkedIn, toggleCheckIn }) => (
           <span className="chip gray">{guest.registrationType}</span>
         </div>
       </div>
+
+      {/* Trash button only for On-Site guests */}
+      {guest.registrationType === "On-Site" && (
+        <button
+          className="icon-btn icon-btn--danger"
+          onClick={(e) => {
+            e.stopPropagation(); // don't toggle check-in
+            if (confirm(`Remove ${guest.Name}?`)) {
+              onRemoveManual(guest.Name);
+            }
+          }}
+          aria-label="Remove on-site guest"
+          title="Remove on-site guest"
+        >
+          🗑️
+        </button>
+      )}
     </div>
   </div>
 );
