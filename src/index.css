@@ -331,4 +331,4 @@ body {
   cursor: pointer;
 }
 .icon-btn:hover { background: #e5e7eb; }
-.icon-btn--danger { background: #e5e7eb; } /* fab black button style */
+.icon-btn--danger { background: #dc2626; } /* danger icon button style */
