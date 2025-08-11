@@ -110,7 +110,8 @@ const removeManualGuest = (name) => {
   const clearData = () => {
     setGuestList([]);
     setCheckedIn({});
-    localStorage.clear();
+    localStorage.removeItem("guestList");
+    localStorage.removeItem("checkedIn");
   };
 
   const filteredGuests = guestList
