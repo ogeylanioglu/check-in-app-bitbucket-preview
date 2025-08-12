@@ -5,11 +5,15 @@ const ExportCSVButton = ({ guestList, checkedIn }) => {
   const linkRef = useRef(null);
 
   const handleExport = () => {
-    const dataToExport = guestList.map((guest) => ({
-      Name: guest.Name,
-      CheckedIn: checkedIn[guest.Name] ? "Yes" : "No",
-      RegistrationType: guest.registrationType || "Pre-Registered",
-    }));
+   const dataToExport = guestList.map((guest) => {
+      const nameKey = `${guest.firstName} ${guest.lastName}`;
+      return {
+        firstName: guest.firstName,
+        lastName: guest.lastName,
+        CheckedIn: checkedIn[nameKey] ? "Yes" : "No",
+        RegistrationType: guest.registrationType || "Pre-Registered",
+      };
+    });
 
     const csv = Papa.unparse(dataToExport);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
