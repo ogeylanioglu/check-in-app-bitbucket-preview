@@ -1,4 +1,5 @@
 import React from "react";
+import { HiOutlineTrash } from "react-icons/hi";
 
 const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
   const nameKey = `${guest.firstName} ${guest.lastName}`;
@@ -34,7 +35,7 @@ const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
             aria-label="Remove on-site guest"
             title="Remove on-site guest"
           >
-            🗑️
+            <HiOutlineTrash className="icon" />
           </button>
         )}
       </div>
