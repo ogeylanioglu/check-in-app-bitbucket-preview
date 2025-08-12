@@ -9,48 +9,61 @@ import GuestCard from "./components/GuestCard";
 
 
 function App() {
-  const [guestList, setGuestList] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [checkedIn, setCheckedIn] = useState({});
-  const [sortAsc, setSortAsc] = useState(true);
-  const [showManualOnly, setShowManualOnly] = useState(false);
+const [guestList, setGuestList] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [checkedIn, setCheckedIn] = useState({});
+    const [sortAsc, setSortAsc] = useState(true);
+    const [showManualOnly, setShowManualOnly] = useState(false);
 
-  const addManualGuest = () => {
-    const fullName = prompt("Enter guest's full name:");
-    if (!fullName || !fullName.trim()) return;
+    const addManualGuest = () => {
+      const fullName = prompt("Enter guest's full name:");
+      if (!fullName || !fullName.trim()) return;
 
-    const name = fullName.trim();
-    const email = name.toLowerCase().replace(/ /g, ".") + "@manual.com";
+      const [firstName, ...rest] = fullName.trim().split(" ");
+      const lastName = rest.join(" ");
+      const emailName = `${firstName}${lastName ? "." + lastName : ""}`
+        .toLowerCase()
+        .replace(/\s+/g, "");
+      const email = `${emailName}@manual.com`;
 
-    const newGuest = { 
-  Name: name, 
-  Email: email, 
-  registrationType: "On-Site" 
-};
-    const updatedList = [...guestList, newGuest];
-    setGuestList(updatedList);
-    localStorage.setItem("guestList", JSON.stringify(updatedList));
-  };
+      const newGuest = {
+        firstName,
+        lastName,
+        Email: email,
+        registrationType: "On-Site",
+      };
+      const updatedList = [...guestList, newGuest];
+      setGuestList(updatedList);
+      localStorage.setItem("guestList", JSON.stringify(updatedList));
+    };
 
- useEffect(() => {
-  const savedList = localStorage.getItem("guestList");
-  const savedCheckIns = localStorage.getItem("checkedIn");
+   useEffect(() => {
+    const savedList = localStorage.getItem("guestList");
+    const savedCheckIns = localStorage.getItem("checkedIn");
 
-  if (savedList) {
-    let parsedList = JSON.parse(savedList);
+    if (savedList) {
+      let parsedList = JSON.parse(savedList);
 
-    // Migration: add registrationType if missing
-    parsedList = parsedList.map(guest => ({
-      ...guest,
-      registrationType: guest.registrationType || "Pre-Registered"
-    }));
+      // Migration: ensure firstName/lastName and registrationType
+      parsedList = parsedList.map((guest) => {
+        const firstName = guest.firstName || guest.Name?.split(" ")[0] || "";
+        const lastName =
+          guest.lastName || guest.Name?.split(" ").slice(1).join(" ") || "";
+        const { Name, ...rest } = guest;
+        return {
+          ...rest,
+          firstName,
+          lastName,
+          registrationType: guest.registrationType || "Pre-Registered",
+        };
+      });
 
-    setGuestList(parsedList);
-    localStorage.setItem("guestList", JSON.stringify(parsedList)); // save back the updated list
-  }
+      setGuestList(parsedList);
+      localStorage.setItem("guestList", JSON.stringify(parsedList)); // save back the updated list
+    }
 
-  if (savedCheckIns) setCheckedIn(JSON.parse(savedCheckIns));
-}, []);
+         if (savedCheckIns) setCheckedIn(JSON.parse(savedCheckIns));
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("guestList", JSON.stringify(guestList));
@@ -60,52 +73,54 @@ function App() {
     localStorage.setItem("checkedIn", JSON.stringify(checkedIn));
   }, [checkedIn]);
 
-  const handleCSVUpload = (e) => {
-    const file = e.target.files[0];
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        const cleaned = results.data
-  .map(row => ({
-    Name: row.Name?.trim(),
-    registrationType: "Pre-Registered"
-  }))
-  .filter(row => row.Name);
-        setGuestList(cleaned);
-        setCheckedIn({});
-        localStorage.setItem("guestList", JSON.stringify(cleaned));
-        localStorage.setItem("checkedIn", JSON.stringify({}));
-      },
+ const handleCSVUpload = (e) => {
+      const file = e.target.files[0];
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          const cleaned = results.data
+            .map((row) => ({
+              firstName: row.firstName?.trim(),
+              lastName: row.lastName?.trim(),
+              registrationType: "Pre-Registered",
+            }))
+            .filter((row) => row.firstName && row.lastName);
+          setGuestList(cleaned);
+          setCheckedIn({});
+          localStorage.setItem("guestList", JSON.stringify(cleaned));
+          localStorage.setItem("checkedIn", JSON.stringify({}));
+        },
+      });
+    };
+
+    const toggleCheckIn = (nameKey) => {
+      const updated = { ...checkedIn, [nameKey]: !checkedIn[nameKey] };
+      setCheckedIn(updated);
+      localStorage.setItem("checkedIn", JSON.stringify(updated));
+    };
+
+  const removeManualGuest = (nameKey) => {
+    // Remove from guestList (only if it's an On-Site record)
+    setGuestList((prev) => {
+      const updated = prev.filter((g) => {
+        const guestKey = `${g.firstName} ${g.lastName}`;
+        return !(guestKey === nameKey && g.registrationType === "On-Site");
+      });
+      localStorage.setItem("guestList", JSON.stringify(updated));
+      return updated;
     });
-  };
-
-  const toggleCheckIn = (name) => {
-    const updated = { ...checkedIn, [name]: !checkedIn[name] };
-    setCheckedIn(updated);
-    localStorage.setItem("checkedIn", JSON.stringify(updated));
-  };
-
-const removeManualGuest = (name) => {
-  // Remove from guestList (only if it's an On-Site record)
-  setGuestList(prev => {
-    const updated = prev.filter(
-      g => !(g.Name === name && g.registrationType === "On-Site")
-    );
-    localStorage.setItem("guestList", JSON.stringify(updated));
-    return updated;
-  });
 
   // Clean up the checkedIn state for that name
-  setCheckedIn(prev => {
-    if (name in prev) {
-      const { [name]: _omit, ...rest } = prev;
-      localStorage.setItem("checkedIn", JSON.stringify(rest));
-      return rest;
-    }
-    return prev;
-  });
-};
+    setCheckedIn((prev) => {
+      if (nameKey in prev) {
+        const { [nameKey]: _omit, ...rest } = prev;
+        localStorage.setItem("checkedIn", JSON.stringify(rest));
+        return rest;
+      }
+      return prev;
+    });
+  };
 
   const clearData = () => {
     setGuestList([]);
@@ -115,14 +130,20 @@ const removeManualGuest = (name) => {
   };
 
   const filteredGuests = guestList
-    .filter((guest) => {
-      const matchesSearch = guest.Name?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesManual = !showManualOnly || guest.registrationType === "On-Site";
-      return matchesSearch && matchesManual;
-    })
-    .sort((a, b) =>
-      sortAsc ? a.Name.localeCompare(b.Name) : b.Name.localeCompare(a.Name)
-    );
+      .filter((guest) => {
+        const fullName = `${guest.firstName} ${guest.lastName}`.toLowerCase();
+        const matchesSearch = fullName.includes(searchTerm.toLowerCase());
+        const matchesManual =
+          !showManualOnly || guest.registrationType === "On-Site";
+        return matchesSearch && matchesManual;
+      })
+      .sort((a, b) => {
+        const fullNameA = `${a.firstName} ${a.lastName}`;
+        const fullNameB = `${b.firstName} ${b.lastName}`;
+        return sortAsc
+          ? fullNameA.localeCompare(fullNameB)
+          : fullNameB.localeCompare(fullNameA);
+      });
 
   const total = guestList.length;
   const checked = Object.values(checkedIn).filter(Boolean).length;
