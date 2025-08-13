@@ -3,7 +3,7 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: url('./assets/background.jpg') no-repeat center center;
+  background: url('./assets/background.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #1a1a1a;
   position: relative;
@@ -286,6 +286,14 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   background-color: #333;
 }
 
+body {
+  background-image: url('./assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 /* Allowing background to scroll on smaller screens so it's visible on mobile */
 @media (max-width: 768px) {
   body {
@@ -341,16 +349,10 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   box-shadow: 0 2px 6px rgba(0,0,0,.2);
 }
 
-/* The SVG as an <img> — force white with filter and set size */
+/* The SVG as an <img> â€” force white with filter and set size */
 .icon-img {
   width: 20px;
   height: 20px;
   display: block;
   filter: brightness(0) invert(0);  /* turns it white regardless of source color */
-}
-/* Desktop-only: keep the fixed background attachment */
-@media (min-width: 769px) {
-  body {
-    background-attachment: fixed;
-  }
 }
