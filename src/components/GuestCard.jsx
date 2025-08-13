@@ -46,7 +46,6 @@ const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
     alert("Trash button visible (temp test)"); // sanity check
   }}
   aria-label="Remove guest (temp)"
-  title="Remove guest (temp)"
 >
   <TrashIcon className="icon" />
 </button>
