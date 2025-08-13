@@ -1,5 +1,5 @@
 import React from "react";
-import { HiOutlineTrash } from "react-icons/hi";
+import { HiTrash } from "react-icons/hi";
 
 const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
   const nameKey = `${guest.firstName} ${guest.lastName}`;
@@ -32,7 +32,7 @@ const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
   aria-label="Remove guest (temp)"
   title="Remove guest (temp)"
 >
-  <HiOutlineTrash className="icon" />
+  <HiTrash className="icon" />
 </button>
       </div>
     </div>
