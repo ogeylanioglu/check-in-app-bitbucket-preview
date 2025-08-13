@@ -3,7 +3,7 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: url('./assets/background.jpg') no-repeat center center fixed;
+  background: url('./assets/background.jpg') no-repeat center center;
   background-size: cover;
   color: #1a1a1a;
   position: relative;
@@ -18,6 +18,18 @@ body::before {
   width: 100vw;
   background: rgba(0, 0, 0, 0.4);
   z-index: -1;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+@media (min-width: 769px) {
+  body {
+    background-attachment: fixed;
+  }
 }
 
 .wrapper {
@@ -286,20 +298,6 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   background-color: #333;
 }
 
-body {
-  background-image: url('./assets/background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-/* Allowing background to scroll on smaller screens so it's visible on mobile */
-@media (max-width: 768px) {
-  body {
-    background-attachment: scroll;
-  }
-}
 .chips {
   display: flex;
   gap: 6px;
