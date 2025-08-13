@@ -328,7 +328,7 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #dc2626;
+  background: #fff;
   color: #fff;                 /* not used by <img>, */
   border: none;
   display: flex;
