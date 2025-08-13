@@ -293,6 +293,13 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+/* Allowing background to scroll on smaller screens so it's visible on mobile */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
 .chips {
   display: flex;
   gap: 6px;
