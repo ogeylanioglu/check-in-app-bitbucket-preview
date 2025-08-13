@@ -22,22 +22,18 @@ const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
           </div>
         </div>
 
-      {/* Trash button only for On-Site guests */}
-        {guest.registrationType === "On-Site" && (
-          <button
-            className="icon-btn icon-btn--danger"
-            onClick={(e) => {
-              e.stopPropagation(); // don't toggle check-in
-              if (confirm(`Remove ${guest.firstName} ${guest.lastName}?`)) {
-                onRemoveManual(nameKey);
-              }
-            }}
-            aria-label="Remove on-site guest"
-            title="Remove on-site guest"
-          >
-            <HiOutlineTrash className="icon" />
-          </button>
-        )}
+     {/* TEMP: render for everyone to verify visibility */}
+<button
+  className="icon-btn icon-btn--danger"
+  onClick={(e) => {
+    e.stopPropagation();
+    alert("Trash button visible (temp test)"); // sanity check
+  }}
+  aria-label="Remove guest (temp)"
+  title="Remove guest (temp)"
+>
+  <HiOutlineTrash className="icon" />
+</button>
       </div>
     </div>
  );
