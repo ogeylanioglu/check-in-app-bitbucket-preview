@@ -11,7 +11,8 @@ const Controls = ({
   handleCSVUpload,
   clearData,
   guestList,
-  checkedIn
+  checkedIn,
+  addManualGuest
 }) => (
   <div className="controls">
     <div className="upload-wrapper">
@@ -25,6 +26,7 @@ const Controls = ({
         accept=".csv"
         onChange={handleCSVUpload}
       />
+      <button className="add-guest-btn" onClick={addManualGuest}>+ Add guest</button>
     </div>
 
     <div className="search-row">
