@@ -164,6 +164,7 @@ const [guestList, setGuestList] = useState([]);
   clearData={clearData}
   guestList={guestList}
   checkedIn={checkedIn}
+  addManualGuest={addManualGuest}
 />
 
        <Stats checked={checked} total={total} percentage={percentage} />
@@ -179,9 +180,6 @@ const [guestList, setGuestList] = useState([]);
     />
   ))}
 </div>
-
-      
-      <div className="fab" onClick={addManualGuest}>+</div>
     </div>
   );
 }
