@@ -213,6 +213,13 @@ let parsedList = [];
   };
 
   const clearData = () => {
+    const shouldClear = window.confirm(
+      "Are you sure you want to clear all events and check-in data?"
+    );
+    if (!shouldClear) {
+      return;
+    }
+    
     setEvents([]);
     setActiveEventId(null);
     localStorage.removeItem(STORAGE_KEY);
