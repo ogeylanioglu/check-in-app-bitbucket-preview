@@ -49,9 +49,6 @@ const Controls = ({
         <button className="add-guest-btn" onClick={addManualGuest}>
           + Add guest
         </button>
-      </div>
-
-   <div className="search-row">
         <select
           className={`event-select${activeEventId ? " event-select--active" : ""}`}
           value={activeEventId || ""}
@@ -64,6 +61,9 @@ const Controls = ({
             </option>
           ))}
         </select>
+         </div>
+
+      <div className="search-row">
         <button
           type="button"
           className="delete-event-btn"
