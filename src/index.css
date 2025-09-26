@@ -148,7 +148,7 @@ button:hover {
   background-color: #e2e8f0;
 }
 
-event-select {
+.event-select {
   padding: 0.5rem 1.1rem;
   border: none;
   border-radius: 14px;
