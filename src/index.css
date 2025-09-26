@@ -133,11 +133,6 @@ input[type="file"]::-webkit-file-upload-button:hover {
   gap: 0.35rem;
 }
 
-.search-row label {
-  font-weight: 600;
-  color: #1f2937;
-}
-
 .search-row button {
   white-space: nowrap;
 }
