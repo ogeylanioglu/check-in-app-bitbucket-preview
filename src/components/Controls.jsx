@@ -63,7 +63,21 @@ const Controls = ({
         </select>
          </div>
 
-      <div className="search-row">
+      <div className="search-bar">
+        <label htmlFor="guest-search">Search Guests</label>
+        <input
+          id="guest-search"
+          type="text"
+          placeholder="Search by Full Name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button type="button" onClick={() => setSearchTerm("")}>
+          Clear
+        </button>
+      </div>
+
+      <div className="control-actions">
         <button
           type="button"
           className="delete-event-btn"
@@ -72,21 +86,16 @@ const Controls = ({
         >
           Delete Selected Event
         </button>
-        <input
-          type="text"
-          placeholder="Search by Full Name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={() => setSearchTerm("")}>Clear</button>
-        <button onClick={() => setSortAsc((prev) => !prev)}>
+        <button type="button" onClick={() => setSortAsc((prev) => !prev)}>
           Sort {sortAsc ? "↓ Z-A" : "↑ A-Z"}
         </button>
-        <button onClick={() => setShowManualOnly((prev) => !prev)}>
+        <button type="button" onClick={() => setShowManualOnly((prev) => !prev)}>
           {showManualOnly ? "Show All" : "On-Site Registrations"}
         </button>
         <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
-        <button onClick={clearData}>Clear All Events</button>
+        <button type="button" onClick={clearData}>
+          Clear All Events
+        </button>
       </div>
     </div>
   );
