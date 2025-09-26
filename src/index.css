@@ -162,6 +162,17 @@ button:hover {
   transition: all 0.2s ease;
 }
 
+.event-select--active {
+  background-color: #dcd2bf;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.event-select option:checked {
+  background-color: #f1f5f9;
+  font-weight: 600;
+  color: #1f2937;
+}
+
 .event-select:hover {
   background-color: #EBE7DD;
 }
