@@ -61,17 +61,19 @@ const Controls = ({
             </option>
           ))}
         </select>
-         </div>
+      </div>
 
-      <div className="search-bar">
-        <label htmlFor="guest-search">Search Guests</label>
-        <input
-          id="guest-search"
-          type="text"
-          placeholder="Search by Full Name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+     <div className="search-row">
+        <div className="search-row__input">
+          <label htmlFor="guestSearch">Search Guests</label>
+          <input
+            id="guestSearch"
+            type="text"
+            placeholder="Search by Full Name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <button type="button" onClick={() => setSearchTerm("")}>
           Clear
         </button>
