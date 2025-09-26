@@ -12,7 +12,10 @@ const Controls = ({
   clearData,
   guestList,
   checkedIn,
-  addManualGuest
+  addManualGuest,
+  events,
+  activeEventId,
+  setActiveEventId,
 }) => (
   <div className="controls">
     <div className="upload-wrapper">
@@ -30,6 +33,17 @@ const Controls = ({
     </div>
 
     <div className="search-row">
+      <select
+        value={activeEventId || ""}
+        onChange={(e) => setActiveEventId(e.target.value || null)}
+      >
+        <option value="">Select Event</option>
+        {events.map((event) => (
+          <option key={event.id} value={event.id}>
+            {event.name}
+          </option>
+        ))}
+      </select>
       <input
         type="text"
         placeholder="Search by Full Name"
@@ -44,6 +58,7 @@ const Controls = ({
         {showManualOnly ? "Show All" : "On-Site Registrations"}
       </button>
       <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
+      <button onClick={clearData}>Clear All Events</button>
     </div>
   </div>
 );
