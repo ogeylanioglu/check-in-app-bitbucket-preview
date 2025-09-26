@@ -153,6 +153,9 @@ event-select {
   border: none;
   border-radius: 14px;
   background-color: #f1f5f9;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
