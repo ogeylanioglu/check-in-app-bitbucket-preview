@@ -8,7 +8,7 @@ import GuestCard from "./components/GuestCard";
 const STORAGE_KEY = "eventsData";
 
 function App() {
-const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([]);
   const [activeEventId, setActiveEventId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortAsc, setSortAsc] = useState(true);
@@ -212,6 +212,33 @@ let parsedList = [];
     );
   };
 
+  const removeEvent = (eventId) => {
+    if (!eventId) return;
+
+    setEvents((prevEvents) => {
+      const filteredEvents = prevEvents.filter((event) => event.id !== eventId);
+
+      setActiveEventId((currentId) => {
+        if (filteredEvents.length === 0) {
+          return null;
+        }
+
+        if (currentId === eventId) {
+          return filteredEvents[0].id;
+        }
+
+        const stillExists = filteredEvents.some((event) => event.id === currentId);
+        if (!currentId || !stillExists) {
+          return filteredEvents[0].id;
+        }
+
+        return currentId;
+      });
+
+      return filteredEvents;
+    });
+  };
+
   const clearData = () => {
     const shouldClear = window.confirm(
       "Are you sure you want to clear all events and check-in data?"
@@ -276,6 +303,7 @@ let parsedList = [];
         events={events}
         activeEventId={activeEventId}
         setActiveEventId={setActiveEventId}
+        removeEvent={removeEvent}
       />
 
       <Stats checked={checked} total={total} percentage={percentage} />
