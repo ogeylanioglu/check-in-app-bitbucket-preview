@@ -63,9 +63,8 @@ const Controls = ({
         </select>
       </div>
 
-     <div className="search-row">
+      <div className="search-row">
         <div className="search-row__input">
-          <label htmlFor="guestSearch">Search Guests</label>
           <input
             id="guestSearch"
             type="text"
