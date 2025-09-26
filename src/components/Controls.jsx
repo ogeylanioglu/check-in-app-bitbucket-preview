@@ -34,6 +34,7 @@ const Controls = ({
 
     <div className="search-row">
       <select
+        className="event-select"
         value={activeEventId || ""}
         onChange={(e) => setActiveEventId(e.target.value || null)}
       >
