@@ -148,6 +148,26 @@ button:hover {
   background-color: #e2e8f0;
 }
 
+event-select {
+  padding: 0.5rem 1.1rem;
+  border: none;
+  border-radius: 14px;
+  background-color: #f1f5f9;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.event-select:hover {
+  background-color: #e2e8f0;
+}
+
+.event-select:focus {
+  outline: 2px solid #94a3b8;
+  outline-offset: 2px;
+}
+
 .guest-grid {
   display: flex;
   flex-direction: column;
