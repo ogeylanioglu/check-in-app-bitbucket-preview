@@ -49,7 +49,7 @@ const Controls = ({
         <button className="add-guest-btn" onClick={addManualGuest}>
           + Add guest
         </button>
-        <div className="event-select-container">
+        <div className="event-select-wrapper">
           <select
             className={`event-select${activeEventId ? " event-select--active" : ""}`}
             value={activeEventId || ""}
@@ -62,7 +62,6 @@ const Controls = ({
               </option>
             ))}
           </select>
-          {activeEventId && <span className="dropdown-arrow">▼</span>}
         </div>
       </div>
 
