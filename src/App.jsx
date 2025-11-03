@@ -78,11 +78,14 @@ let parsedList = [];
 
   const addManualGuest = () => {
     const eventForGuest = ensureActiveEvent();
-    const fullName = prompt("Enter guest's full name:");
-    if (!fullName || !fullName.trim()) return;
+    const firstNameInput = prompt("Enter guest's first name:");
+    const lastNameInput = prompt("Enter guest's last name:");
 
-    const [firstName, ...rest] = fullName.trim().split(" ");
-    const lastName = rest.join(" ");
+    if (!firstNameInput || !firstNameInput.trim()) return;
+    if (!lastNameInput || !lastNameInput.trim()) return;
+
+    const firstName = firstNameInput.trim();
+    const lastName = lastNameInput.trim();
     const emailName = `${firstName}${lastName ? "." + lastName : ""}`
       .toLowerCase()
       .replace(/\s+/g, "");
