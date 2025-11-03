@@ -188,6 +188,27 @@ button:hover {
   background-color: #e2e8f0;
 }
 
+.event-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.event-select-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  width: 0.7rem;
+  height: 0.45rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23635242' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  opacity: 0.85;
+  transform: translateY(-50%);
+}
+
 .event-select {
   padding: 0.5rem 1.1rem;
   border: none;
@@ -201,10 +222,11 @@ button:hover {
   color: #1f2937;
   cursor: pointer;
   transition: all 0.2s ease;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23635242' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.9rem center;
-  background-size: 0.65rem auto;
+   background-image: none;
+}
+
+.event-select::-ms-expand {
+  display: none;
 }
 
 .event-select--active {
