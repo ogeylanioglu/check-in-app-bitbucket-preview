@@ -49,18 +49,21 @@ const Controls = ({
         <button className="add-guest-btn" onClick={addManualGuest}>
           + Add guest
         </button>
-        <select
-          className={`event-select${activeEventId ? " event-select--active" : ""}`}
-          value={activeEventId || ""}
-          onChange={(e) => setActiveEventId(e.target.value || null)}
-        >
-          <option value="">Select Event</option>
-          {events.map((event) => (
-            <option key={event.id} value={event.id}>
-              {event.name}
-            </option>
-          ))}
-        </select>
+        <div className="event-select-container">
+          <select
+            className={`event-select${activeEventId ? " event-select--active" : ""}`}
+            value={activeEventId || ""}
+            onChange={(e) => setActiveEventId(e.target.value || null)}
+          >
+            <option value="">Select Event</option>
+            {events.map((event) => (
+              <option key={event.id} value={event.id}>
+                {event.name}
+              </option>
+            ))}
+          </select>
+          {activeEventId && <span className="dropdown-arrow">▼</span>}
+        </div>
       </div>
 
       <div className="search-row">
