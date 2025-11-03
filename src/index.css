@@ -232,13 +232,6 @@ button:hover {
   align-items: center;
 }
 
-.dropdown-arrow {
-  font-size: 0.7rem;
-  margin-left: 6px;
-  color: #333;
-  opacity: 0.7;
-}
-
 .guest-grid {
   display: flex;
   flex-direction: column;
