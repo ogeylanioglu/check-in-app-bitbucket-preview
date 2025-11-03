@@ -198,8 +198,13 @@ button:hover {
   -moz-appearance: none;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
+  color: #1f2937;
   cursor: pointer;
   transition: all 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23635242' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 0.65rem auto;
 }
 
 .event-select--active {
@@ -445,7 +450,7 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   box-shadow: 0 2px 6px rgba(0,0,0,.2);
 }
 
-/* The SVG as an <img> â€” force white with filter and set size */
+/* The SVG as an <img> force white with filter and set size */
 .icon-img {
   width: 20px;
   height: 20px;
