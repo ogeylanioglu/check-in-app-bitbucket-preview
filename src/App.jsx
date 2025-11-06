@@ -141,14 +141,14 @@ let parsedList = [];
 
   const isManualGuestFirstStep = manualGuestStep === "first";
   const manualGuestInputLabel = isManualGuestFirstStep
-    ? "Enter the guest's first name"
-    : "Enter the guest's last name";
+    ? "Enter the Guest's First Name"
+    : "Enter the Guest's Last Name";
   const manualGuestInputValue = isManualGuestFirstStep
     ? manualGuestData.firstName
     : manualGuestData.lastName;
   const manualGuestPrimaryLabel = isManualGuestFirstStep
     ? "Next"
-    : "Check in guest";
+    : "Add Guest";
   const manualGuestPrimaryAction = isManualGuestFirstStep
     ? handleManualGuestNext
     : handleManualGuestSubmit;
