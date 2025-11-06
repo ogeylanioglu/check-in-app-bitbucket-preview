@@ -13,6 +13,12 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortAsc, setSortAsc] = useState(true);
   const [showManualOnly, setShowManualOnly] = useState(false);
+  const [isManualGuestModalOpen, setManualGuestModalOpen] = useState(false);
+  const [manualGuestStep, setManualGuestStep] = useState("first");
+  const [manualGuestData, setManualGuestData] = useState({
+    firstName: "",
+    lastName: "",
+  });
 
   const activeEvent = events.find((event) => event.id === activeEventId) || null;
 
@@ -77,15 +83,35 @@ let parsedList = [];
   };
 
   const addManualGuest = () => {
+    ensureActiveEvent();
+    setManualGuestData({ firstName: "", lastName: "" });
+    setManualGuestStep("first");
+    setManualGuestModalOpen(true);
+  };
+
+  const closeManualGuestModal = () => {
+    setManualGuestModalOpen(false);
+    setManualGuestStep("first");
+    setManualGuestData({ firstName: "", lastName: "" });
+  };
+
+  const handleManualGuestNext = () => {
+    if (!manualGuestData.firstName.trim()) return;
+    setManualGuestData((prev) => ({
+      ...prev,
+      firstName: prev.firstName.trim(),
+    }));
+    setManualGuestStep("last");
+  };
+
+  const handleManualGuestSubmit = () => {
+    const firstName = manualGuestData.firstName.trim();
+    const lastName = manualGuestData.lastName.trim();
+
+    if (!firstName || !lastName) return;
+
     const eventForGuest = ensureActiveEvent();
-    const firstNameInput = prompt("Enter guest's first name:");
-    const lastNameInput = prompt("Enter guest's last name:");
 
-    if (!firstNameInput || !firstNameInput.trim()) return;
-    if (!lastNameInput || !lastNameInput.trim()) return;
-
-    const firstName = firstNameInput.trim();
-    const lastName = lastNameInput.trim();
     const emailName = `${firstName}${lastName ? "." + lastName : ""}`
       .toLowerCase()
       .replace(/\s+/g, "");
@@ -98,7 +124,7 @@ let parsedList = [];
       registrationType: "On-Site",
     };
 
-  setEvents((prevEvents) => {
+      setEvents((prevEvents) => {
       const nextEvents = prevEvents.map((event) => {
         if (event.id !== eventForGuest.id) return event;
         return {
@@ -109,7 +135,39 @@ let parsedList = [];
 
       return nextEvents;
     });
-};
+
+    closeManualGuestModal();
+  };
+
+  const isManualGuestFirstStep = manualGuestStep === "first";
+  const manualGuestInputLabel = isManualGuestFirstStep
+    ? "Enter the guest's first name"
+    : "Enter the guest's last name";
+  const manualGuestInputValue = isManualGuestFirstStep
+    ? manualGuestData.firstName
+    : manualGuestData.lastName;
+  const manualGuestPrimaryLabel = isManualGuestFirstStep
+    ? "Next"
+    : "Check in guest";
+  const manualGuestPrimaryAction = isManualGuestFirstStep
+    ? handleManualGuestNext
+    : handleManualGuestSubmit;
+  const isManualGuestPrimaryDisabled = !manualGuestInputValue.trim();
+
+  const handleManualGuestInputChange = (value) => {
+    setManualGuestData((prev) =>
+      isManualGuestFirstStep
+        ? { ...prev, firstName: value }
+        : { ...prev, lastName: value }
+    );
+  };
+
+  const handleManualGuestKeyDown = (event) => {
+    if (event.key === "Enter" && !isManualGuestPrimaryDisabled) {
+      event.preventDefault();
+      manualGuestPrimaryAction();
+    }
+  };
 
     useEffect(() => {
     const savedEvents = localStorage.getItem(STORAGE_KEY);
@@ -322,6 +380,51 @@ let parsedList = [];
           />
         ))}
       </div>
+
+      {isManualGuestModalOpen && (
+        <div className="modal-backdrop" role="presentation">
+          <div
+            className="modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="manual-guest-modal-title"
+          >
+            <div className="modal__header">
+              <h2 id="manual-guest-modal-title">Check in a new user</h2>
+            </div>
+            <div className="modal__body">
+              <label className="modal__label" htmlFor="manual-guest-input">
+                {manualGuestInputLabel}
+              </label>
+              <input
+                id="manual-guest-input"
+                type="text"
+                value={manualGuestInputValue}
+                onChange={(event) => handleManualGuestInputChange(event.target.value)}
+                onKeyDown={handleManualGuestKeyDown}
+                autoFocus
+              />
+            </div>
+            <div className="modal__actions">
+              <button
+                type="button"
+                className="btn btn--secondary"
+                onClick={closeManualGuestModal}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn--primary"
+                onClick={manualGuestPrimaryAction}
+                disabled={isManualGuestPrimaryDisabled}
+              >
+                {manualGuestPrimaryLabel}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
