@@ -390,7 +390,7 @@ let parsedList = [];
             aria-labelledby="manual-guest-modal-title"
           >
             <div className="modal__header">
-              <h2 id="manual-guest-modal-title">Check in a new user</h2>
+              <h2 id="manual-guest-modal-title">Add a new guest</h2>
             </div>
             <div className="modal__body">
               <label className="modal__label" htmlFor="manual-guest-input">
