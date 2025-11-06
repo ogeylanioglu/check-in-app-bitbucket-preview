@@ -546,12 +546,12 @@ button:focus-visible, input:focus-visible, label:focus-visible {
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  background: linear-gradient(135deg, #7A0300, #500200);
   color: #ffffff;
 }
 
 .btn--primary:hover {
-  background: linear-gradient(135deg, #0284c7, #4f46e5);
+  background: linear-gradient(135deg, #F3F0E7, #D8D1C3);
 }
 
 .btn:disabled,
