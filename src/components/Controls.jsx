@@ -16,21 +16,14 @@ const Controls = ({
   events,
   activeEventId,
   setActiveEventId,
-  removeEvent,
+  onRequestDeleteEvent,
 }) => {
   const selectedEvent = events.find((event) => event.id === activeEventId) || null;
 
   const handleDeleteEvent = () => {
-    if (!activeEventId) return;
+    if (!activeEventId || !selectedEvent) return;
 
-    const eventName = selectedEvent?.name || "this event";
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${eventName}"? This action cannot be undone.`
-    );
-
-    if (confirmed) {
-      removeEvent(activeEventId);
-    }
+    onRequestDeleteEvent?.(selectedEvent);
   };
 
   return (
