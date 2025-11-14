@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import Papa from "papaparse";
 import Header from "./components/Header";
 import Stats from "./components/Stats";
@@ -19,6 +20,12 @@ function App() {
     firstName: "",
     lastName: "",
   });
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [eventPendingDeletion, setEventPendingDeletion] = useState(null);
+  const deleteModalTitleId = useId();
+  const deleteModalDescriptionId = useId();
+  const resetModalTitleId = useId();
+  const resetModalDescriptionId = useId();
 
   const activeEvent = events.find((event) => event.id === activeEventId) || null;
 
@@ -300,14 +307,24 @@ let parsedList = [];
     });
   };
 
-  const clearData = () => {
-    const shouldClear = window.confirm(
-      "Are you sure you want to clear all events and check-in data?"
-    );
-    if (!shouldClear) {
-      return;
-    }
-    
+  const requestDeleteEvent = (event) => {
+    if (!event) return;
+
+    setEventPendingDeletion(event);
+  };
+
+  const cancelDeleteEvent = () => {
+    setEventPendingDeletion(null);
+  };
+
+  const confirmDeleteEvent = () => {
+    if (!eventPendingDeletion) return;
+
+    removeEvent(eventPendingDeletion.id);
+    setEventPendingDeletion(null);
+  };
+
+  const resetAllData = () => {  
     setEvents([]);
     setActiveEventId(null);
     localStorage.removeItem(STORAGE_KEY);
@@ -315,11 +332,52 @@ let parsedList = [];
     localStorage.removeItem("checkedIn");
   };
 
- useEffect(() => {
+ const clearData = () => {
+    setShowResetModal(true);
+  };
+
+  const cancelResetAllData = () => {
+    setShowResetModal(false);
+  };
+
+  const confirmResetAllData = () => {
+    resetAllData();
+    setShowResetModal(false);
+  };
+
+  useEffect(() => {
+    if (!showResetModal && !eventPendingDeletion) {
+      return undefined;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        if (eventPendingDeletion) {
+          setEventPendingDeletion(null);
+        } else {
+          setShowResetModal(false);
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [eventPendingDeletion, showResetModal]);
+
+  useEffect(() => {
     const payload = {
       events,
       activeEventId,
     };
+
+    if (events.length === 0 && !activeEventId) {
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   }, [events, activeEventId]);
 
@@ -364,7 +422,7 @@ let parsedList = [];
         events={events}
         activeEventId={activeEventId}
         setActiveEventId={setActiveEventId}
-        removeEvent={removeEvent}
+        onRequestDeleteEvent={requestDeleteEvent}
       />
 
       <Stats checked={checked} total={total} percentage={percentage} />
@@ -420,6 +478,104 @@ let parsedList = [];
                 disabled={isManualGuestPrimaryDisabled}
               >
                 {manualGuestPrimaryLabel}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {eventPendingDeletion && (
+        <div
+          className="modal-backdrop"
+          role="presentation"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              cancelDeleteEvent();
+            }
+          }}
+        >
+          <div
+            className="modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={deleteModalTitleId}
+            aria-describedby={deleteModalDescriptionId}
+          >
+            <div className="modal__header">
+              <h2 id={deleteModalTitleId}>
+                Delete "{eventPendingDeletion?.name || "this event"}"?
+              </h2>
+            </div>
+            <div className="modal__body">
+              <div id={deleteModalDescriptionId} className="modal__description">
+                <p>
+                  This will remove the guest list and check-in history for this
+                  event. This action cannot be undone.
+                </p>
+              </div>
+            </div>
+            <div className="modal__actions">
+              <button
+                type="button"
+                className="btn btn--secondary"
+                onClick={cancelDeleteEvent}
+              >
+                Nevermind, take me back
+              </button>
+              <button
+                type="button"
+                className="btn btn--danger"
+                onClick={confirmDeleteEvent}
+              >
+                Yes, delete this event
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showResetModal && (
+        <div
+          className="modal-backdrop"
+          role="presentation"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              cancelResetAllData();
+            }
+          }}
+        >
+          <div
+            className="modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={resetModalTitleId}
+            aria-describedby={resetModalDescriptionId}
+          >
+            <div className="modal__header">
+              <h2 id={resetModalTitleId}>Are you sure you want to reset all?</h2>
+            </div>
+            <div className="modal__body">
+              <div id={resetModalDescriptionId} className="modal__description">
+                <p>
+                  This will remove the spreadsheet and all data for everyone
+                  you’ve checked in so far.
+                </p>
+              </div>
+            </div>
+            <div className="modal__actions">
+              <button
+                type="button"
+                className="btn btn--secondary"
+                onClick={cancelResetAllData}
+              >
+                Nevermind, take me back
+              </button>
+              <button
+                type="button"
+                className="btn btn--danger"
+                onClick={confirmResetAllData}
+              >
+                Yes, I want to remove the spreadsheet &amp; start over
               </button>
             </div>
           </div>
