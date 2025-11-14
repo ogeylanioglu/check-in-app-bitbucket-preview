@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useId } from "react";
 import Papa from "papaparse";
+import { buildHeaderMapping, normalizeRow } from "./utils/csvNormalization";
 import Header from "./components/Header";
 import Stats from "./components/Stats";
 import Controls from "./components/Controls";
@@ -207,13 +208,29 @@ let parsedList = [];
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        const cleaned = results.data
-          .map((row) => ({
-            firstName: row.firstName?.trim(),
-            lastName: row.lastName?.trim(),
+        const headers = results.meta?.fields || [];
+        const headerMapping = buildHeaderMapping(headers);
+
+        const normalizedGuests = results.data
+          .map((row) => normalizeRow(row, headerMapping))
+          .filter((guest) => guest.firstName && guest.lastName);
+
+        const cleaned = normalizedGuests.map((guest) => {
+          const { checkedIn, ...rest } = guest;
+          return {
+            ...rest,
             registrationType: "Pre-Registered",
-          }))
-          .filter((row) => row.firstName && row.lastName);
+          };
+        });
+
+        const initialCheckedIn = normalizedGuests.reduce((acc, guest) => {
+          if (!guest.checkedIn) return acc;
+          const nameKey = `${guest.firstName} ${guest.lastName}`.trim();
+          if (nameKey) {
+            acc[nameKey] = true;
+          }
+          return acc;
+        }, {});
 
         const defaultName = file.name?.replace(/\.csv$/i, "") || "New Event";
         const eventName = prompt("Enter a name for this event", defaultName) || defaultName;
@@ -221,7 +238,7 @@ let parsedList = [];
           id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
           name: eventName,
           guests: cleaned,
-          checkedIn: {},
+          checkedIn: initialCheckedIn,
         };
 
         setEvents((prevEvents) => [...prevEvents, newEvent]);
