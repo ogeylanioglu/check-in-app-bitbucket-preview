@@ -6,7 +6,7 @@ const canonicalHeaders = ["firstName", "lastName", "email", "company", "checkedI
   // Fuse.js performs fuzzy searching so we do not have to curate a huge list of synonyms.
 const fuse = new Fuse(canonicalHeaders, {
   includeScore: true,
-  threshold: 0.4,
+  threshold: 0.55,
   distance: 100,
 });
 
@@ -14,7 +14,10 @@ const TRUTHY_CHECKED_IN_VALUES = new Set(["true", "1", "yes"]);
 
 const cleanHeader = (header) => {
   if (typeof header !== "string") return "";
-  return header.trim().toLowerCase();
+  return header
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]/g, "");
 };
 
 const toTrimmedString = (value) => {
@@ -39,7 +42,7 @@ export const normalizeHeader = (header) => {
 
   // Fuse returns matches sorted by similarity. We keep the top hit if it is confident enough.
   const [match] = fuse.search(cleaned);
-  if (match && match.score <= 0.5) {
+  if (match && match.score <= 0.6) {
     return match.item;
   }
 
