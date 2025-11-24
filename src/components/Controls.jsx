@@ -74,14 +74,6 @@ const Controls = ({
       </div>
 
       <div className="control-actions">
-        <button
-          type="button"
-          className="delete-event-btn"
-          onClick={handleDeleteEvent}
-          disabled={!activeEventId}
-        >
-          Delete Selected Event
-        </button>
         <button type="button" onClick={() => setSortAsc((prev) => !prev)}>
           Sort {sortAsc ? "↓ Z-A" : "↑ A-Z"}
         </button>
@@ -89,8 +81,16 @@ const Controls = ({
           {showManualOnly ? "Show All" : "On-Site Registrations"}
         </button>
         <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
-        <button type="button" onClick={clearData}>
-          Clear All Events
+        <button
+          type="button"
+          className="delete-event-btn btn--danger"
+          onClick={handleDeleteEvent}
+          disabled={!activeEventId}
+        >
+          Delete Selected Event
+        </button>
+        <button type="button" className="btn--danger" onClick={clearData}>
+          Delete All Data
         </button>
       </div>
     </div>
