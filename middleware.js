@@ -1,23 +1,39 @@
-import { NextResponse } from 'next/server'
-
 const USERNAME = 'convene25'
 const PASSWORD = 'consumeradd'
-const PUBLIC_FILE = /\.(?:js|css|ico|png|jpe?g|gif|svg|webp|avif|woff2?|ttf|eot|otf|json|map|txt|xml|pdf|mp4|mp3|ogg|wav|manifest)$/i
 
-export default function middleware(request) {
+function isStaticAsset(pathname) {
+  if (pathname.startsWith('/assets/')) return true
+  return /\.(?:png|jpg|jpeg|svg|ico|css|js)$/i.test(pathname)
+}
+
+export default async function middleware(request) {
   const { pathname } = new URL(request.url)
-  if (PUBLIC_FILE.test(pathname)) return NextResponse.next()
+  if (isStaticAsset(pathname)) {
+    return fetch(request)
+  }
 
-  const auth = request.headers.get('authorization') || ''
-  if (auth.startsWith('Basic ')) {
-    const credentials = auth.slice(6)
-    const [user, ...rest] = atob(credentials).split(':')
-    const pass = rest.join(':')
-    if (user === USERNAME && pass === PASSWORD) return NextResponse.next()
+  const authHeader = request.headers.get('authorization') || ''
+  if (authHeader.startsWith('Basic ')) {
+    const encoded = authHeader.slice(6)
+    let decoded = ''
+    try {
+      decoded = atob(encoded)
+    } catch (error) {
+      decoded = ''
+    }
+
+  const separatorIndex = decoded.indexOf(':')
+    if (separatorIndex !== -1) {
+      const user = decoded.slice(0, separatorIndex)
+      const pass = decoded.slice(separatorIndex + 1)
+      if (user === USERNAME && pass === PASSWORD) {
+        return fetch(request)
+      }
+    }
   }
 
   return new Response('Unauthorized', {
     status: 401,
-    headers: { 'WWW-Authenticate': 'Basic realm="Protected"' },
+    headers: { 'WWW-Authenticate': 'Basic realm="Secure Area"' },
   })
 }
