@@ -15,10 +15,10 @@ function App() {
   const [sortAsc, setSortAsc] = useState(true);
   const [showManualOnly, setShowManualOnly] = useState(false);
   const [isManualGuestModalOpen, setManualGuestModalOpen] = useState(false);
-  const [manualGuestStep, setManualGuestStep] = useState("first");
   const [manualGuestData, setManualGuestData] = useState({
     firstName: "",
     lastName: "",
+    email: "",
   });
   const [showResetModal, setShowResetModal] = useState(false);
   const [eventPendingDeletion, setEventPendingDeletion] = useState(null);
@@ -91,43 +91,30 @@ let parsedList = [];
 
   const addManualGuest = () => {
     ensureActiveEvent();
-    setManualGuestData({ firstName: "", lastName: "" });
-    setManualGuestStep("first");
+    setManualGuestData({ firstName: "", lastName: "", email: "" });
     setManualGuestModalOpen(true);
   };
 
   const closeManualGuestModal = () => {
     setManualGuestModalOpen(false);
-    setManualGuestStep("first");
-    setManualGuestData({ firstName: "", lastName: "" });
-  };
-
-  const handleManualGuestNext = () => {
-    if (!manualGuestData.firstName.trim()) return;
-    setManualGuestData((prev) => ({
-      ...prev,
-      firstName: prev.firstName.trim(),
-    }));
-    setManualGuestStep("last");
+    setManualGuestData({ firstName: "", lastName: "", email: "" });
   };
 
   const handleManualGuestSubmit = () => {
     const firstName = manualGuestData.firstName.trim();
     const lastName = manualGuestData.lastName.trim();
+    const email = manualGuestData.email.trim();
 
     if (!firstName || !lastName) return;
 
     const eventForGuest = ensureActiveEvent();
-
-    const emailName = `${firstName}${lastName ? "." + lastName : ""}`
-      .toLowerCase()
-      .replace(/\s+/g, "");
-    const email = `${emailName}@manual.com`;
-
+ 
     const newGuest = {
       firstName,
       lastName,
-      Email: email,
+      email,
+      isCheckedIn: false,
+      onSiteRegistration: true,
       registrationType: "On-Site",
     };
 
@@ -146,33 +133,20 @@ let parsedList = [];
     closeManualGuestModal();
   };
 
-  const isManualGuestFirstStep = manualGuestStep === "first";
-  const manualGuestInputLabel = isManualGuestFirstStep
-    ? "Enter the Guest's First Name"
-    : "Enter the Guest's Last Name";
-  const manualGuestInputValue = isManualGuestFirstStep
-    ? manualGuestData.firstName
-    : manualGuestData.lastName;
-  const manualGuestPrimaryLabel = isManualGuestFirstStep
-    ? "Next"
-    : "Add Guest";
-  const manualGuestPrimaryAction = isManualGuestFirstStep
-    ? handleManualGuestNext
-    : handleManualGuestSubmit;
-  const isManualGuestPrimaryDisabled = !manualGuestInputValue.trim();
-
-  const handleManualGuestInputChange = (value) => {
-    setManualGuestData((prev) =>
-      isManualGuestFirstStep
-        ? { ...prev, firstName: value }
-        : { ...prev, lastName: value }
-    );
+  const handleManualGuestInputChange = (field, value) => {
+    setManualGuestData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
+  const isManualGuestFormValid =
+    manualGuestData.firstName.trim() && manualGuestData.lastName.trim();
+  
   const handleManualGuestKeyDown = (event) => {
-    if (event.key === "Enter" && !isManualGuestPrimaryDisabled) {
+     if (event.key === "Enter" && isManualGuestFormValid) {
       event.preventDefault();
-      manualGuestPrimaryAction();
+      handleManualGuestSubmit();
     }
   };
 
@@ -467,17 +441,51 @@ let parsedList = [];
               <h2 id="manual-guest-modal-title">Add a new guest</h2>
             </div>
             <div className="modal__body">
-              <label className="modal__label" htmlFor="manual-guest-input">
-                {manualGuestInputLabel}
-              </label>
-              <input
-                id="manual-guest-input"
-                type="text"
-                value={manualGuestInputValue}
-                onChange={(event) => handleManualGuestInputChange(event.target.value)}
-                onKeyDown={handleManualGuestKeyDown}
-                autoFocus
-              />
+              <div className="modal__field">
+                <label className="modal__label" htmlFor="manual-guest-first-name">
+                  First Name
+                </label>
+                <input
+                  id="manual-guest-first-name"
+                  type="text"
+                  value={manualGuestData.firstName}
+                  onChange={(event) =>
+                    handleManualGuestInputChange("firstName", event.target.value)
+                  }
+                  onKeyDown={handleManualGuestKeyDown}
+                  autoFocus
+                />
+              </div>
+
+              <div className="modal__field">
+                <label className="modal__label" htmlFor="manual-guest-last-name">
+                  Last Name
+                </label>
+                <input
+                  id="manual-guest-last-name"
+                  type="text"
+                  value={manualGuestData.lastName}
+                  onChange={(event) =>
+                    handleManualGuestInputChange("lastName", event.target.value)
+                  }
+                  onKeyDown={handleManualGuestKeyDown}
+                />
+              </div>
+
+              <div className="modal__field">
+                <label className="modal__label" htmlFor="manual-guest-email">
+                  Email (optional)
+                </label>
+                <input
+                  id="manual-guest-email"
+                  type="email"
+                  value={manualGuestData.email}
+                  onChange={(event) =>
+                    handleManualGuestInputChange("email", event.target.value)
+                  }
+                  onKeyDown={handleManualGuestKeyDown}
+                />
+              </div>
             </div>
             <div className="modal__actions">
               <button
@@ -490,10 +498,10 @@ let parsedList = [];
               <button
                 type="button"
                 className="btn btn--primary"
-                onClick={manualGuestPrimaryAction}
-                disabled={isManualGuestPrimaryDisabled}
+                onClick={handleManualGuestSubmit}
+                disabled={!isManualGuestFormValid}
               >
-                {manualGuestPrimaryLabel}
+                Add to List
               </button>
             </div>
           </div>
