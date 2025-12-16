@@ -127,21 +127,15 @@ input[type="file"]::-webkit-file-upload-button:hover {
   align-items: end;
 }
 
-.search-row__input {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  width: 100%;
-}
-
 .search-input-wrapper {
   position: relative;
   width: 100%;
 }
 
 .search-input-wrapper input {
- width: 100%;
+  width: 100%;
   padding-right: 3rem;
+  box-sizing: border-box;
 }
 
 .search-clear {
