@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ExportCSVButton from "./ExportCSVButton";
 
 const Controls = ({
@@ -18,12 +18,18 @@ const Controls = ({
   setActiveEventId,
   onRequestDeleteEvent,
 }) => {
+  const searchInputRef = useRef(null);
   const selectedEvent = events.find((event) => event.id === activeEventId) || null;
 
   const handleDeleteEvent = () => {
     if (!activeEventId || !selectedEvent) return;
 
     onRequestDeleteEvent?.(selectedEvent);
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    searchInputRef.current?.focus();
   };
 
   return (
@@ -60,17 +66,27 @@ const Controls = ({
 
       <div className="search-row">
         <div className="search-row__input">
-          <input
-            id="guestSearch"
-            type="text"
-            placeholder="Search by Full Name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <div className="search-input-wrapper">
+            <input
+              id="guestSearch"
+              type="text"
+              placeholder="Search by Full Name"
+              value={searchTerm}
+              ref={searchInputRef}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                className="search-clear"
+                aria-label="Clear search"
+                onClick={handleClearSearch}
+              >
+                ×
+              </button>
+            )}
+          </div>
         </div>
-        <button type="button" onClick={() => setSearchTerm("")}>
-          Clear
-        </button>
       </div>
 
       <div className="control-actions">
