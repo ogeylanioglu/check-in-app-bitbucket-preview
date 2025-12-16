@@ -122,7 +122,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
 
 .search-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.75rem;
   align-items: end;
 }
@@ -131,6 +131,33 @@ input[type="file"]::-webkit-file-upload-button:hover {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-input-wrapper input {
+  padding-right: 2.5rem;
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #67543F;
+  padding: 0.1rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.search-clear:hover,
+.search-clear:focus-visible {
+  color: #061221;
 }
 
 .search-row button {
