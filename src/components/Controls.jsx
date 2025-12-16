@@ -65,27 +65,25 @@ const Controls = ({
       </div>
 
       <div className="search-row">
-        <div className="search-row__input">
-          <div className="search-input-wrapper">
-            <input
-              id="guestSearch"
-              type="text"
-              placeholder="Search by Full Name"
-              value={searchTerm}
-              ref={searchInputRef}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            {searchTerm && (
-              <button
-                type="button"
-                className="search-clear"
-                aria-label="Clear search"
-                onClick={handleClearSearch}
-              >
-                ×
-              </button>
-            )}
-          </div>
+        <div className="search-input-wrapper">
+          <input
+            id="guestSearch"
+            type="text"
+            placeholder="Search by Full Name"
+            value={searchTerm}
+            ref={searchInputRef}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {searchTerm && (
+            <button
+              type="button"
+              className="search-clear"
+              aria-label="Clear search"
+              onClick={handleClearSearch}
+            >
+              ×
+            </button>
+          )}
         </div>
       </div>
 
