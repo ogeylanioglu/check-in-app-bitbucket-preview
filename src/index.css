@@ -146,6 +146,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
 .search-input-wrapper input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
+  display: none;
 }
 
 .search-clear {
