@@ -137,6 +137,8 @@ input[type="file"]::-webkit-file-upload-button:hover {
   width: 100%;
   padding-right: 3rem;
   box-sizing: border-box;
+  height: 3rem;
+  line-height: 3rem;
 }
 
 .search-clear {
