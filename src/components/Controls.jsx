@@ -68,7 +68,7 @@ const Controls = ({
         <div className="search-input-wrapper">
           <input
             id="guestSearch"
-            type="text"
+            type="search"
             placeholder="Search by Full Name"
             value={searchTerm}
             ref={searchInputRef}
