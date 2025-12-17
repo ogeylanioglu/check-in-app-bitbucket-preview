@@ -131,22 +131,12 @@ input[type="file"]::-webkit-file-upload-button:hover {
 .search-input-wrapper {
   position: relative;
   width: 100%;
-  height: 3rem;
 }
 
 .search-input-wrapper input {
   width: 100%;
-  height: 100%;
-  padding: 0.6rem 1rem;
   padding-right: 3rem;
   box-sizing: border-box;
-  line-height: normal;
-}
-
-.search-input-wrapper input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
-  display: none;
 }
 
 .search-clear {
