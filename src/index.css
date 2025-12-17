@@ -143,6 +143,11 @@ input[type="file"]::-webkit-file-upload-button:hover {
   line-height: normal;
 }
 
+.search-input-wrapper input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .search-clear {
   position: absolute;
   right: 0.75rem;
