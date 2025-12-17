@@ -144,8 +144,11 @@ input[type="file"]::-webkit-file-upload-button:hover {
 .search-clear {
   position: absolute;
   right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   background: transparent;
   color: #67543F;
