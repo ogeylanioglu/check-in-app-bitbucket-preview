@@ -169,12 +169,6 @@ input[type="file"]::-webkit-file-upload-button:hover {
   .search-row button {
     width: 100%;
   }
-
-  input[type="search"] {
-    -webkit-appearance: searchfield;
-    appearance: searchfield;
-  }
-   
 }
 
 input[type="text"],
@@ -611,12 +605,4 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-}
-
-@media (max-width: 600px) {
-  .search-input-wrapper input[type="search"] {
-    padding-right: 1.5rem;
-    -webkit-appearance: searchfield;
-    appearance: searchfield;
-  }
 }
