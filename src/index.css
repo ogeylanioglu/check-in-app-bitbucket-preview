@@ -169,6 +169,12 @@ input[type="file"]::-webkit-file-upload-button:hover {
   .search-row button {
     width: 100%;
   }
+
+  input[type="search"] {
+    -webkit-appearance: searchfield;
+    appearance: searchfield;
+  }
+   
 }
 
 input[type="text"],
