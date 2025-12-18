@@ -139,25 +139,6 @@ input[type="file"]::-webkit-file-upload-button:hover {
   box-sizing: border-box;
 }
 
-.search-clear {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: transparent;
-  color: #67543F;
-  padding: 0.1rem;
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.search-clear:hover,
-.search-clear:focus-visible {
-  color: #061221;
-}
-
 .search-row button {
   white-space: nowrap;
 }
@@ -191,7 +172,8 @@ input[type="file"]::-webkit-file-upload-button:hover {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="search"] {
   padding: 0.6rem 1rem;
   border-radius: 0;
   border: 1px solid #67543F;
@@ -560,7 +542,8 @@ button:focus-visible, input:focus-visible, label:focus-visible {
 }
 
 .modal__body input[type="text"],
-.modal__body input[type="email"] {
+.modal__body input[type="email"],
+.modal__body input[type="search"] {
   border-radius: 0;
   border: 1px solid #67543F;
   padding: 0.65rem 1rem;
