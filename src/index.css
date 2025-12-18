@@ -612,3 +612,11 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   flex-direction: column;
   gap: 0.35rem;
 }
+
+@media (max-width: 600px) {
+  .search-input-wrapper input[type="search"] {
+    padding-right: 1.5rem;
+    -webkit-appearance: searchfield;
+    appearance: searchfield;
+  }
+}
