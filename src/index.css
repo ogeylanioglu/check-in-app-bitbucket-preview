@@ -606,16 +606,3 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   flex-direction: column;
   gap: 0.35rem;
 }
-
-.search-input-wrapper input[type="search"] {
-  appearance: auto;
-  -webkit-appearance: searchfield;
-  -moz-appearance: searchfield;
-  background: initial;
-  border: initial;
-  border-radius: initial;
-  padding: initial;
-  padding-right: initial;
-  font: initial;
-  color: initial;
-}
