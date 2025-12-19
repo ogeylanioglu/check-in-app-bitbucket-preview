@@ -498,7 +498,7 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   transition: background-color .2s ease, box-shadow .2s ease;
 }
 .icon-btn:hover {
-  background: #b91c1c;
+  background: #fee2e2;
   box-shadow: 0 2px 6px rgba(0,0,0,.2);
 }
 
