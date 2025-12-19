@@ -4,10 +4,11 @@ import trashUrl from "../assets/trash.svg?url";
 const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
   const nameKey = `${guest.firstName} ${guest.lastName}`;
 
+  const isCheckedIn = checkedIn[nameKey];
+
   return (
     <div
-      onClick={() => toggleCheckIn(nameKey)}
-      className={`guest-card ${checkedIn[nameKey] ? "checked" : ""} ${
+     className={`guest-card ${isCheckedIn ? "checked" : ""} ${
         guest.registrationType === "On-Site" ? "manual" : ""
       }`}
     >
@@ -15,29 +16,39 @@ const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
         <div className="guest-info">
           <span className="guest-name">{guest.firstName} {guest.lastName}</span>
           <div className="chips">
-            <span className={`chip ${checkedIn[nameKey] ? "green" : "red"}`}>
-              {checkedIn[nameKey] ? "Checked In" : "Not Checked In"}
+            <span className={`chip ${isCheckedIn ? "green" : "red"}`}>
+              {isCheckedIn ? "Checked In" : "Not Checked In"}
             </span>
             <span className="chip gray">{guest.registrationType}</span>
           </div>
         </div>
 
-      {/* Trash button only for On-Site guests */}
-        {guest.registrationType === "On-Site" && (
+      <div className="guest-actions">
           <button
-            className="icon-btn icon-btn--danger"
-            onClick={(e) => {
-              e.stopPropagation(); // don't toggle check-in
-              if (confirm(`Remove ${guest.firstName} ${guest.lastName}?`)) {
-                onRemoveManual(nameKey);
-              }
-            }}
-            aria-label="Remove on-site guest"
-            title="Remove on-site guest"
+            className={`check-btn ${isCheckedIn ? "check-btn--undo" : "check-btn--check"}`}
+            onClick={() => toggleCheckIn(nameKey)}
+            type="button"
           >
-            <img src={trashUrl} alt="" className="icon-img" />
+            {isCheckedIn ? "Undo" : "Check In"}
           </button>
-        )}
+        
+        {guest.registrationType === "On-Site" && (
+            <button
+              className="icon-btn icon-btn--danger"
+              onClick={(e) => {
+                e.stopPropagation(); // don't toggle check-in
+                if (confirm(`Remove ${guest.firstName} ${guest.lastName}?`)) {
+                  onRemoveManual(nameKey);
+                }
+              }}
+              aria-label="Remove on-site guest"
+              title="Remove on-site guest"
+              type="button"
+            >
+              <img src={trashUrl} alt="" className="icon-img" />
+            </button>
+          )}
+        </div>
       </div>
     </div>
  );
