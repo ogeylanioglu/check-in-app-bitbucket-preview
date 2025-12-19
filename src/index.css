@@ -276,7 +276,7 @@ button:hover {
   border-radius: 0;
   padding: 1rem;
   background-color: #FFFCF5;
-  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.08);
+  box-shadow:  0 2px 8px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   cursor: default;
 }
