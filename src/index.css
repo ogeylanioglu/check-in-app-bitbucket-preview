@@ -488,7 +488,7 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #FFFCF5;
   color: #fff;                 /* not used by <img>, */
   border: none;
   display: flex;
