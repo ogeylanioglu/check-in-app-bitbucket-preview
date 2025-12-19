@@ -275,7 +275,7 @@ button:hover {
   border: 1px solid #67543F;
   border-radius: 0;
   padding: 1rem;
-  background-color: #FFFCF5;
+  background-color: #FFFFF8;
   box-shadow:  0 2px 8px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   cursor: default;
