@@ -79,7 +79,7 @@ body::after {
 }
 
 .controls {
-  background: #FFFCF5;
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 1.5rem;
   display: flex;
