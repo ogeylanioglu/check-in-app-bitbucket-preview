@@ -273,22 +273,17 @@ button:hover {
 
 .guest-card {
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  border-radius: 0;
   padding: 1rem;
-  background-color: #ffffff;
+  background-color: #FFF5CF;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.guest-card:hover {
-  transform: scale(1.01);
-  background-color: #f9fafb;
+  cursor: default;
 }
 
 .guest-card.checked {
   animation: pop 0.25s ease;
-  background-color: #98FF98;
+  background-color: #D9EAD3;
   border-color: #006400;
 }
 
@@ -304,9 +299,38 @@ button:hover {
   align-items: center;
 }
 
+.guest-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.check-btn {
+  background-color: #06122A;
+  color: #ffffff;
+  border-color: #06122A;
+}
+
+.check-btn:hover {
+  background-color: #06122A;
+  color: #ffffff;
+}
+
+.check-btn--undo {
+  background-color: transparent;
+  color: #67543F;
+  border-color: #67543F;
+}
+
+.check-btn--undo:hover {
+  background-color: transparent;
+  color: #67543F;
+}
+
 .guest-name {
   font-weight: 600;
   font-size: 1.1rem;
+  color: #06122A;
 }
 
 .tag {
