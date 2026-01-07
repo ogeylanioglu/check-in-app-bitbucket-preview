@@ -1,5 +1,5 @@
 const USERNAME = 'convene25'
-const PASSWORD = 'privacypeace'
+const PASSWORD = 'personalwonder'
 
 function isStaticAsset(pathname) {
   if (pathname.startsWith('/assets/')) return true
