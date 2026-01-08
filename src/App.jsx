@@ -19,6 +19,7 @@ function App() {
     firstName: "",
     lastName: "",
     email: "",
+    company: "",
   });
   const [showResetModal, setShowResetModal] = useState(false);
   const [eventPendingDeletion, setEventPendingDeletion] = useState(null);
@@ -91,19 +92,20 @@ let parsedList = [];
 
   const addManualGuest = () => {
     ensureActiveEvent();
-    setManualGuestData({ firstName: "", lastName: "", email: "" });
+    setManualGuestData({ firstName: "", lastName: "", email: "", company: "" });
     setManualGuestModalOpen(true);
   };
 
   const closeManualGuestModal = () => {
     setManualGuestModalOpen(false);
-    setManualGuestData({ firstName: "", lastName: "", email: "" });
+    setManualGuestData({ firstName: "", lastName: "", email: "", company: "" });
   };
 
   const handleManualGuestSubmit = () => {
     const firstName = manualGuestData.firstName.trim();
     const lastName = manualGuestData.lastName.trim();
     const email = manualGuestData.email.trim();
+    const company = manualGuestData.company.trim();
 
     if (!firstName || !lastName) return;
 
@@ -113,7 +115,7 @@ let parsedList = [];
       firstName,
       lastName,
       email,
-      company: "",
+      company,
       isCheckedIn: false,
       onSiteRegistration: true,
       registrationType: "On-Site",
@@ -483,6 +485,20 @@ const filteredGuests = (activeEvent?.guests || [])
                   value={manualGuestData.email}
                   onChange={(event) =>
                     handleManualGuestInputChange("email", event.target.value)
+                  }
+                  onKeyDown={handleManualGuestKeyDown}
+                />
+              </div>
+              <div className="modal__field">
+                <label className="modal__label" htmlFor="manual-guest-company">
+                  Company (optional)
+                </label>
+                <input
+                  id="manual-guest-company"
+                  type="text"
+                  value={manualGuestData.company}
+                  onChange={(event) =>
+                    handleManualGuestInputChange("company", event.target.value)
                   }
                   onKeyDown={handleManualGuestKeyDown}
                 />
