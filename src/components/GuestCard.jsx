@@ -3,6 +3,7 @@ import trashUrl from "../assets/trash.svg?url";
 
 const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
   const nameKey = `${guest.firstName} ${guest.lastName}`;
+  const company = typeof guest.company === "string" ? guest.company.trim() : "";
 
   const isCheckedIn = checkedIn[nameKey];
 
@@ -14,7 +15,12 @@ const GuestCard = ({ guest, checkedIn, toggleCheckIn, onRemoveManual }) => {
     >
       <div className="guest-top">
         <div className="guest-info">
-          <span className="guest-name">{guest.firstName} {guest.lastName}</span>
+         <span className="guest-name-line">
+            <span className="guest-name">
+              {guest.firstName} {guest.lastName}
+            </span>
+            {company && <span className="guest-company"> | {company}</span>}
+          </span>
           <div className="chips">
             <span className={`chip ${isCheckedIn ? "green" : "red"}`}>
               {isCheckedIn ? "Checked In" : "Not Checked In"}
