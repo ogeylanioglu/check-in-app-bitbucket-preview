@@ -1,17 +1,5 @@
 import Fuse from "fuse.js";
 
-  // Canonical headers represent the internal fields the rest of the app expects.
-const canonicalHeaders = ["firstName", "lastName", "email", "company", "checkedIn"];
-
-  // Fuse.js performs fuzzy searching so we do not have to curate a huge list of synonyms.
-const fuse = new Fuse(canonicalHeaders, {
-  includeScore: true,
-  threshold: 0.55,
-  distance: 100,
-});
-
-const TRUTHY_CHECKED_IN_VALUES = new Set(["true", "1", "yes"]);
-
 const cleanHeader = (header) => {
   if (typeof header !== "string") return "";
   return header
@@ -19,6 +7,44 @@ const cleanHeader = (header) => {
     .trim()
     .replace(/[^a-z0-9]/g, "");
 };
+
+  // Canonical headers represent the internal fields the rest of the app expects.
+const canonicalHeaders = ["firstName", "lastName", "email", "company", "checkedIn"];
+const companyHeaderVariants = [
+  "Company",
+  "company",
+  "Company Name",
+  "company_name",
+  "Organization",
+  "organization",
+  "Org",
+  "Employer",
+];
+
+const headerAliases = Array.from(
+  new Set([...canonicalHeaders, ...companyHeaderVariants].map(cleanHeader).filter(Boolean))
+);
+
+const headerAliasMap = canonicalHeaders.reduce((acc, header) => {
+  acc[cleanHeader(header)] = header;
+  return acc;
+}, {});
+
+companyHeaderVariants.forEach((variant) => {
+  const cleaned = cleanHeader(variant);
+  if (cleaned) {
+    headerAliasMap[cleaned] = "company";
+  }
+});
+
+  // Fuse.js performs fuzzy searching so we do not have to curate a huge list of synonyms.
+const fuse = new Fuse(headerAliases, {
+  includeScore: true,
+  threshold: 0.55,
+  distance: 100,
+});
+
+const TRUTHY_CHECKED_IN_VALUES = new Set(["true", "1", "yes"]);
 
 const toTrimmedString = (value) => {
   if (value === null || value === undefined) return "";
@@ -43,7 +69,7 @@ export const normalizeHeader = (header) => {
   // Fuse returns matches sorted by similarity. We keep the top hit if it is confident enough.
   const [match] = fuse.search(cleaned);
   if (match && match.score <= 0.6) {
-    return match.item;
+    return headerAliasMap[match.item] || null;
   }
 
   return null;
