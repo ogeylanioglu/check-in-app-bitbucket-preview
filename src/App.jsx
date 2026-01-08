@@ -113,6 +113,7 @@ let parsedList = [];
       firstName,
       lastName,
       email,
+      company: "",
       isCheckedIn: false,
       onSiteRegistration: true,
       registrationType: "On-Site",
