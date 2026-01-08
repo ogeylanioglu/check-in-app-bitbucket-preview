@@ -304,6 +304,7 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .check-btn {
@@ -328,10 +329,22 @@ button:hover {
   color: #67543F;
 }
 
+.guest-name-line {
+  display: block;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .guest-name {
   font-weight: 600;
   font-size: 1.1rem;
   color: #06122A;
+}
+
+.guest-company {
+  color: #67543F;
 }
 
 .tag {
@@ -476,6 +489,7 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .icon {
