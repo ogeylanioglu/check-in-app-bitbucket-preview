@@ -477,7 +477,7 @@ const filteredGuests = (activeEvent?.guests || [])
 
               <div className="modal__field">
                 <label className="modal__label" htmlFor="manual-guest-email">
-                  Email (optional)
+                  Email
                 </label>
                 <input
                   id="manual-guest-email"
@@ -491,7 +491,7 @@ const filteredGuests = (activeEvent?.guests || [])
               </div>
               <div className="modal__field">
                 <label className="modal__label" htmlFor="manual-guest-company">
-                  Company (optional)
+                  Company
                 </label>
                 <input
                   id="manual-guest-company"
