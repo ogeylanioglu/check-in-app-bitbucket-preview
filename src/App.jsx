@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useId } from "react";
+import Fuse from "fuse.js";
 import Papa from "papaparse";
 import { buildHeaderMapping, normalizeRow } from "./utils/csvNormalization";
 import Header from "./components/Header";
@@ -372,10 +373,29 @@ let parsedList = [];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   }, [events, activeEventId]);
 
- const filteredGuests = (activeEvent?.guests || [])
+const normalizedSearchTerm = searchTerm.trim();
+  const guestList = activeEvent?.guests || [];
+  const fuse = new Fuse(guestList, {
+    keys: [
+      { name: "fullName", weight: 0.7 },
+      { name: "email", weight: 0.3 },
+    ],
+    ignoreLocation: true,
+    isCaseSensitive: false,
+    getFn: (guest, path) => {
+      if (path === "fullName") {
+        return `${guest.firstName} ${guest.lastName}`.trim();
+      }
+      return guest?.[path] || "";
+    },
+  });
+  const searchMatches = normalizedSearchTerm
+    ? new Set(fuse.search(normalizedSearchTerm).map((result) => result.item))
+    : null;
+
+  const filteredGuests = guestList
     .filter((guest) => {
-      const fullName = `${guest.firstName} ${guest.lastName}`.toLowerCase();
-      const matchesSearch = fullName.includes(searchTerm.toLowerCase());
+      const matchesSearch = !normalizedSearchTerm || searchMatches.has(guest);
       const matchesManual =
         !showManualOnly || guest.registrationType === "On-Site";
       return matchesSearch && matchesManual;
