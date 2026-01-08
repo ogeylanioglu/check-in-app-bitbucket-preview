@@ -10,6 +10,7 @@ const ExportCSVButton = ({ guestList, checkedIn }) => {
       return {
         firstName: guest.firstName,
         lastName: guest.lastName,
+        Company: guest.company || "",
         email: guest.email || guest.Email || "",
         CheckedIn: checkedIn[nameKey] ? "Yes" : "No",
         RegistrationType: guest.registrationType || "Pre-Registered",
