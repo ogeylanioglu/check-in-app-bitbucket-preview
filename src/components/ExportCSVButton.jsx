@@ -1,9 +1,22 @@
 import React, { useRef } from "react";
 import Papa from "papaparse";
 
-const ExportCSVButton = ({ guestList, checkedIn }) => {
+const ExportCSVButton = ({ guestList, checkedIn, eventName }) => {
   const linkRef = useRef(null);
 
+const getExportFileName = () => {
+    const sanitizedEventName =
+      typeof eventName === "string"
+        ? eventName.replace(/[\\/:*?"<>|]/g, "").trim()
+        : "";
+
+    if (!sanitizedEventName) {
+      return "Check-In Results.csv";
+    }
+
+    return `${sanitizedEventName} – Check-In Results.csv`;
+  };
+  
   const handleExport = () => {
    const dataToExport = guestList.map((guest) => {
       const nameKey = `${guest.firstName} ${guest.lastName}`;
@@ -23,7 +36,7 @@ const ExportCSVButton = ({ guestList, checkedIn }) => {
 
     if (linkRef.current) {
       linkRef.current.href = url;
-      linkRef.current.download = "checkin_results.csv";
+      linkRef.current.download = getExportFileName();
       linkRef.current.click();
     }
   };
