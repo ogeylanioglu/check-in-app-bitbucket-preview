@@ -77,7 +77,11 @@ const Controls = ({
         <button type="button" onClick={() => setShowManualOnly((prev) => !prev)}>
           {showManualOnly ? "Show All" : "On-Site Registrations"}
         </button>
-        <ExportCSVButton guestList={guestList} checkedIn={checkedIn} />
+        <ExportCSVButton
+          guestList={guestList}
+          checkedIn={checkedIn}
+          eventName={selectedEvent?.name}
+        />
         <button
           type="button"
           className="delete-event-btn btn--danger"
